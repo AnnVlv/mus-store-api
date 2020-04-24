@@ -1,5 +1,5 @@
 const KEYS = {
-    jsonWebToken: 'dev-jwt'
+    jsonWebToken: 'test'
 }
 
 module.exports = KEYS
