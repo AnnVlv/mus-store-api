@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const passport = require('passport')
 const connection = require('./utils/connection')
 const authRoutes = require('./routes/auth')
@@ -6,6 +7,7 @@ const positionRoutes = require('./routes/position')
 const categoryRoutes = require('./routes/category')
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
