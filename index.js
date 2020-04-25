@@ -12,9 +12,9 @@ app.use(express.json())
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
 
-app.use('/auth', authRoutes)
-app.use('/position', positionRoutes)
-app.use('/category', categoryRoutes)
+app.use('/api/auth', authRoutes)
+app.use('/api/position', positionRoutes)
+app.use('/api/category', categoryRoutes)
 
 app.get('/', (req, res, next) => {
     res.status(200).json({
