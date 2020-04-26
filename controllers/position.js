@@ -15,7 +15,10 @@ module.exports.getAll = async (req, res) => {
 
 module.exports.getById = async (req, res) => {
     const position = await Position.findByPk(+req.params.id)
-    res.status(200).json(position)
+    if (position) {
+        res.status(200).json(position)
+    }
+    res.status(404).json({message: 'Position not found.'})
 }
 
 module.exports.create = async (req, res) => {

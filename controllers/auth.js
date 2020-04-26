@@ -5,7 +5,6 @@ const KEYS = require('../config/keys')
 
 module.exports.login = async (req, res) => {
     const user = await User.findOne({where: {login: req.body.login}});
-    console.log(user)
     if (user) {
         const isRightPassword = bcrypt.compareSync(req.body.password, user.password);
         if (isRightPassword) {
@@ -29,7 +28,10 @@ module.exports.register = async (req, res) => {
             password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
             name: req.body.name
         })
-        res.status(201).json({user})
+        res.status(201).json({
+            name: user.name,
+            login: user.login
+        })
     }
     res.status(409).json({message: 'User with the same login already exist.'})
 }

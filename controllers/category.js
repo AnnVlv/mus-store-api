@@ -1,5 +1,6 @@
 const Category = require('../models/category')
 const Position = require('../models/position')
+const User = require('../models/user')
 const funcs = require('../utils/functions')
 
 module.exports.getAll = async (req, res) => {
@@ -8,12 +9,26 @@ module.exports.getAll = async (req, res) => {
         where.isDeleted = req.query.isDeleted === 'false' ? false : true
     
     const categories = await Category.findAll({where})
+    for (let i = 0; i < categories.length; i++) {
+        categories[i].dataValues.creator = (await User.findByPk(+categories[i].createdBy)).name
+        categories[i].dataValues.updater = (await User.findByPk(+categories[i].updatedBy)).name
+        const deleter = await User.findByPk(+categories[i].deletedBy)
+        categories[i].dataValues.deleter = deleter ? deleter.name : null
+    }
+
     res.status(200).json(categories)
 }
 
 module.exports.getById = async (req, res) => {
     const category = await Category.findByPk(+req.params.id)
-    res.status(200).json(category)
+    if (category) {
+        category.dataValues.creator = (await User.findByPk(+category.createdBy)).name
+        category.dataValues.updater = (await User.findByPk(+category.updatedBy)).name
+        const deleter = await User.findByPk(+category.deletedBy)
+        category.dataValues.deleter = deleter ? deleter.name : null
+        res.status(200).json(category)
+    }
+    res.status(404).json({message: 'Category not found.'})
 }
 
 module.exports.create = async (req, res) => {
