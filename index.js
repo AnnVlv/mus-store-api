@@ -9,6 +9,7 @@ const categoryRoutes = require('./routes/category')
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use('/uploads', express.static('uploads'))
 app.use(passport.initialize())
 require('./middleware/passport')(passport)
 

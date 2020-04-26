@@ -35,6 +35,7 @@ module.exports.create = async (req, res) => {
     const userId = funcs.getUserId(req.headers.authorization)
     const category = await Category.create({
         name: req.body.name,
+        image: req.file ? req.file.path : null,
         isDeleted: false,
         createdBy: userId,
         updatedBy: userId
@@ -50,6 +51,9 @@ module.exports.update = async (req, res) => {
     if (category.isDeleted)
         res.status(409).json({message: 'You can\'t edit deleted categories.'})
 
+    if (req.file) {
+        category.image = req.file.path
+    }
     category.name = req.body.name
     category.updatedBy = funcs.getUserId(req.headers.authorization)
 

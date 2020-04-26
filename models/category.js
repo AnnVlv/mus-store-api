@@ -12,6 +12,9 @@ const Category = connection.define('Category', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    image: {
+        type: Sequelize.STRING
+    },
     isDeleted: {
         type: Sequelize.BOOLEAN,
         allowNull: false
