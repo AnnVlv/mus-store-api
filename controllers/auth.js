@@ -23,11 +23,9 @@ module.exports.register = async (req, res) => {
     const userWithSameLogin = await User.findOne({where: {login: req.body.login}});
 
     if (!userWithSameLogin) {
-        const user = await User.create({
-            login: req.body.login,
-            password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
-            name: req.body.name
-        })
+        const user = req.body;
+        user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+        await User.create(user)
         res.status(201).json({
             name: user.name,
             login: user.login
