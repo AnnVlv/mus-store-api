@@ -6,6 +6,13 @@ const authRoutes = require('./routes/auth')
 const positionRoutes = require('./routes/position')
 const categoryRoutes = require('./routes/category')
 
+const store = require('./models/store')
+const profession = require('./models/profession')
+const order = require('./models/order')
+const client = require('./models/client')
+const stores_and_positions = require('./models/stores_and_positions')
+const orders_and_positions = require('./models/orders_and_positions')
+
 const app = express()
 app.use(cors())
 app.use(express.json())
@@ -19,13 +26,13 @@ app.use('/api/category', categoryRoutes)
 
 app.get('/', (req, res, next) => {
     res.status(200).json({
-        data: 'tets'
+        message: 'Mus-store API'
     })
 })
 
 async function start() {
     try {
-        //await connection.sync({force: true})
+        await connection.sync({force: true})
         await connection.sync()
         app.listen(PORT)
     } catch {

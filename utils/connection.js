@@ -9,4 +9,13 @@ const sequelize = new Sequelize(DB_NAME, USER_NAME, PASSWORD, {
     dialect: 'mysql'
 });
 
+// const DB_NAME = 'mus-store';
+// const USER_NAME = 'root'; 
+// const PASSWORD = '1234qwerty';
+
+// const sequelize = new Sequelize(DB_NAME, USER_NAME, PASSWORD, {
+//     host: 'localhost',
+//     dialect: 'mysql'
+// });
+
 module.exports = sequelize;
