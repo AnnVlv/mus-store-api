@@ -4,6 +4,6 @@ const controller = require('../controllers/store')
 
 const router = express.Router()
 
-router.get('/', passport.authenticate('jwt', {session: false}), controller.getAll)
+router.get('/', controller.getAll)
 
 module.exports = router
