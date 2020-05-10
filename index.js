@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth')
 const positionRoutes = require('./routes/position')
 const categoryRoutes = require('./routes/category')
 const storeRoutes = require('./routes/store')
+const professionRoutes = require('./routes/profession')
 
 const store = require('./models/store')
 const profession = require('./models/profession')
@@ -26,6 +27,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/position', positionRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/store', storeRoutes)
+app.use('/api/profession', professionRoutes)
 
 app.get('/', (req, res, next) => {
     res.status(200).json({
@@ -35,7 +37,7 @@ app.get('/', (req, res, next) => {
 
 async function start() {
     try {
-        await connection.sync({force: true})
+        // await connection.sync({force: true})
         await connection.sync()
         app.listen(PORT)
     } catch {
