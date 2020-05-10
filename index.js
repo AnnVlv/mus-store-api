@@ -2,9 +2,11 @@ const express = require('express')
 const cors = require('cors')
 const passport = require('passport')
 const connection = require('./utils/connection')
+
 const authRoutes = require('./routes/auth')
 const positionRoutes = require('./routes/position')
 const categoryRoutes = require('./routes/category')
+const storeRoutes = require('./routes/store')
 
 const store = require('./models/store')
 const profession = require('./models/profession')
@@ -23,6 +25,7 @@ require('./middleware/passport')(passport)
 app.use('/api/auth', authRoutes)
 app.use('/api/position', positionRoutes)
 app.use('/api/category', categoryRoutes)
+app.use('/api/store', storeRoutes)
 
 app.get('/', (req, res, next) => {
     res.status(200).json({
