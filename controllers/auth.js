@@ -11,7 +11,7 @@ module.exports.login = async (req, res) => {
             const token = 'Bearer ' + jsonWebToken.sign({
                 login: user.login,
                 userId: user.id
-            }, KEYS.jsonWebToken, {expiresIn: 3600})
+            }, KEYS.jsonWebToken, {expiresIn: 3600 * 8})
             res.status(200).json({token})
         }
         res.status(401).json({message: 'Incorrect password.'})

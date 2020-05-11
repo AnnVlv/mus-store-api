@@ -1,15 +1,23 @@
 const Position = require('../models/position')
 const Category = require('../models/category')
+const User = require('../models/user')
 const funcs = require('../utils/functions')
 
 module.exports.getAll = async (req, res) => {
     let where = {}
     if (req.query.categoryId)
-        where.CategoryId = +req.query.categoryId
+        where.category = +req.query.categoryId
     if (req.query.isDeleted)
         where.isDeleted = req.query.isDeleted === 'false' ? false : true
 
     const positions = await Position.findAll({where})
+    for (let i = 0; i < positions.length; i++) {
+        positions[i].dataValues.creator = (await User.findByPk(+positions[i].createdBy)).name
+        positions[i].dataValues.updater = (await User.findByPk(+positions[i].updatedBy)).name
+        const deleter = await User.findByPk(+positions[i].deletedBy)
+        positions[i].dataValues.deleter = deleter ? deleter.name : null
+    }
+
     res.status(200).json(positions)
 }
 
@@ -45,6 +53,8 @@ module.exports.update = async (req, res) => {
         res.status(404).json({message: 'Position not found.'})
     if (position.isDeleted)
         res.status(409).json({message: 'You can\'t edit deleted positions.'})
+    if (!req.body.name || req.body.price)
+        res.status(409).json({message: 'Name and price can\'t be empty!'})
     
     position.name = req.body.name
     position.category = req.body.category
@@ -67,6 +77,7 @@ module.exports.delete = async (req, res) => {
     } else {
         position.isDeleted = true
         position.deletedBy = funcs.getUserId(req.headers.authorization)
+        position.deletedAt = new Date()
         await position.save()
         res.status(200).json(position)
     }
