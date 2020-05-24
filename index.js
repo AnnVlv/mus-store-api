@@ -8,6 +8,7 @@ const positionRoutes = require('./routes/position')
 const categoryRoutes = require('./routes/category')
 const storeRoutes = require('./routes/store')
 const professionRoutes = require('./routes/profession')
+const ordersRoutes = require('./routes/order')
 
 const store = require('./models/store')
 const profession = require('./models/profession')
@@ -28,6 +29,7 @@ app.use('/api/position', positionRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/store', storeRoutes)
 app.use('/api/profession', professionRoutes)
+app.use('/api/order', ordersRoutes)
 
 app.get('/', (req, res, next) => {
     res.status(200).json({

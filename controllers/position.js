@@ -61,7 +61,7 @@ module.exports.update = async (req, res) => {
     position.price = req.body.price
     position.updatedBy = funcs.getUserId(req.headers.authorization)
 
-    position.save()
+    await position.save()
     res.status(200).json(position)
 }
 

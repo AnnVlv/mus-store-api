@@ -4,9 +4,9 @@ const User = require('../models/user')
 const KEYS = require('../config/keys')
 
 module.exports.login = async (req, res) => {
-    const user = await User.findOne({where: {login: req.body.login}});
+    const user = await User.findOne({where: {login: req.body.login}})
     if (user) {
-        const isRightPassword = bcrypt.compareSync(req.body.password, user.password);
+        const isRightPassword = bcrypt.compareSync(req.body.password, user.password)
         if (isRightPassword) {
             const token = 'Bearer ' + jsonWebToken.sign({
                 login: user.login,
@@ -20,11 +20,11 @@ module.exports.login = async (req, res) => {
 }
 
 module.exports.register = async (req, res) => {
-    const userWithSameLogin = await User.findOne({where: {login: req.body.login}});
+    const userWithSameLogin = await User.findOne({where: {login: req.body.login}})
 
     if (!userWithSameLogin) {
         const user = req.body;
-        user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+        user.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
         await User.create(user)
         res.status(201).json({
             name: user.name,

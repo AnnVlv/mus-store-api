@@ -8,10 +8,6 @@ const Order = connection.define('Order', {
         autoIncrement: true,
         allowNull: false,
     },
-    date: {
-        type: Sequelize.DATE,
-        allowNull: false
-    },
     manager: {
         type: Sequelize.INTEGER,
         allowNull: false,
