@@ -11,10 +11,14 @@ module.exports.get = async (req, res) => {
     else
         where.manager = funcs.getUserId(req.headers.authorization)
     
-    const orders = await Order.findAll({where})
+    let orders = await Order.findAll({where})
 
     for (let i = 0; i < orders.length; i++)
         orders[i].dataValues.userName = (await User.findByPk(+orders[i].manager)).name
+
+    const now = new Date()
+    if (req.query.isForMonth)
+        orders = orders.filter(order => order.createdAt.getYear() === now.getYear() && order.createdAt.getMonth() === now.getMonth())
 
     res.status(200).json(orders)
 }
